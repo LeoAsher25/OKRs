@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import authServices from "src/services/auth.service";
 import { StatusCodes } from "src/types/status-code.enum";
 import { UserSignUpData } from "src/types/user.type";
+import { UserSignUpData } from "src/types/user.type";
 
 const authController = {
   async handleSignUp(req: Request, res: Response, next: NextFunction) {

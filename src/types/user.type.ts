@@ -1,3 +1,5 @@
+import { ObjectiveDto } from "./objective.type";
+
 export interface UserDto {
   email: string;
   password: string;
@@ -9,6 +11,7 @@ export interface UserDto {
   _id?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  objectives?: ObjectiveDto[];
 }
 
 export type UserSignUpData = Pick<

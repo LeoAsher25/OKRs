@@ -6,6 +6,9 @@ import connectDB from "src/config/mongodb";
 import rootPath from "src/constants/root-path";
 import ErrorHandler from "src/middleware/error-handler";
 import mainRouter from "src/routes/index";
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
+const swaggerDocument = YAML.load("src/docs/basicInfo.yaml");
 const port = process.env.PORT || 3000;
 
 connectDB();
@@ -16,6 +19,8 @@ app.use(express.static(rootPath + "/public"));
 
 app.use("/api/v1", mainRouter);
 app.use(ErrorHandler);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port, () => {
   console.log(`OKRs app is listening at http://localhost:${port}`);

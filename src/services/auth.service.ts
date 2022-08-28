@@ -81,6 +81,35 @@ const authServices = {
       throw err;
     }
   },
+
+  async refreshToken(refreshToken: string): Promise<TokenResponse> {
+    try {
+      let tokenResponse: TokenResponse = {
+        refreshToken,
+        expiresAt: Date.now() + Number(process.env.ACCESS_TOKEN_LIFE),
+        refreshExpiresAt: Date.now() + Number(process.env.REFRESH_TOKEN_LIFE),
+      };
+
+      JWT.verify(
+        refreshToken,
+        process.env.JWT_SECRET_REFRESH_TOKEN!,
+        (err: any, decoded: any) => {
+          if (err) {
+            throw err;
+          } else {
+            tokenResponse["accessToken"] = this.encodedToken(
+              decoded.sub,
+              decoded.iss,
+              ETokenType.ACCESS_TOKEN
+            );
+          }
+        }
+      );
+      return tokenResponse;
+    } catch (err) {
+      throw err;
+    }
+  },
 };
 
 export default authServices;

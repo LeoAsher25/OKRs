@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { NextFunction, Request, Response } from "express";
 import userError from "src/helpers/user-error";
 import REGEX from "src/helpers/validation";
+import Session from "src/models/Session.model";
 import User from "src/models/User.model";
 import { UserSignUpData } from "src/types/user.type";
 
@@ -71,6 +72,24 @@ const authMiddleware = {
     } catch (err) {
       next(err);
     }
+  },
+  async checkRefeshToken(req: Request, res: Response, next: NextFunction) {
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+      throw userError.noToken;
+    }
+
+    const foundToken = await Session.find({
+      token: refreshToken,
+    });
+    // prisma.userToken.findFirst({
+    //   where: { token: refreshToken },
+    // });
+    if (!foundToken) {
+      throw userError.invalidToken;
+    }
+    res.locals.refreshToken = refreshToken;
+    next();
   },
 };
 

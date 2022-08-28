@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import authServices from "src/services/auth.service";
+import { TokenResponse } from "src/types/auth.type";
 import { StatusCodes } from "src/types/status-code.enum";
-import { UserSignUpData } from "src/types/user.type";
 import { UserSignUpData } from "src/types/user.type";
 
 const authController = {
@@ -23,7 +23,21 @@ const authController = {
     try {
       const user = res.locals.user;
       const response = await authServices.login(user);
-      return res.status(200).json(response);
+      return res.status(StatusCodes.OK).json(response);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async handleRefreshToken(req: Request, res: Response) {
+    try {
+      const refreshToken = res.locals.refreshToken;
+
+      let tokenResponse: TokenResponse = await authServices.refreshToken(
+        refreshToken
+      );
+
+      return res.status(StatusCodes.OK).json(tokenResponse);
     } catch (err) {
       throw err;
     }

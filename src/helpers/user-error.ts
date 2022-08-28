@@ -29,5 +29,17 @@ const userError = {
     ErrorCodes.BAD_REQUEST,
     "Email or password is incorrect"
   ),
+
+  noToken: new OkrError(
+    StatusCodes.NOT_FOUND,
+    ErrorCodes.NOT_FOUND,
+    "No refresh token supplied!"
+  ),
+
+  invalidToken: new OkrError(
+    StatusCodes.BAD_REQUEST,
+    ErrorCodes.BAD_REQUEST,
+    "Invalid refresh token!"
+  ),
 };
 export default userError;

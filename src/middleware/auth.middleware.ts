@@ -1,35 +1,76 @@
+import bcrypt from "bcryptjs";
 import { NextFunction, Request, Response } from "express";
-import prisma from "src/config/prisma.config";
-import { StatusCodes } from "src/types/status-code.enum";
+import userError from "src/helpers/user-error";
+import REGEX from "src/helpers/validation";
+import User from "src/models/User.model";
 import { UserSignUpData } from "src/types/user.type";
 
 const authMiddleware = {
   async checkSignUp(req: Request, res: Response, next: NextFunction) {
-    const requestData: UserSignUpData = req.body;
-    if (
-      !requestData.firstName ||
-      !requestData.lastName ||
-      !requestData.email ||
-      !requestData.password
-    ) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        message: "Fill in required entry fields!",
-      });
-    }
+    try {
+      const requestData: UserSignUpData = req.body;
 
-    const foundUserByEmail = await prisma.user.findFirst({
-      where: {
+      if (
+        !requestData.firstName ||
+        !requestData.lastName ||
+        !requestData.email ||
+        !requestData.password
+      ) {
+        throw userError.requireFields;
+      }
+
+      if (!REGEX.email.test(requestData.email)) {
+        throw userError.emailIsInvalid;
+      }
+
+      // if (!REGEX.password.test(requestData.password)) {
+      //   throw userError.emailPasswordIsIncorrect;
+      // }
+
+      const foundUserByEmail = await User.findOne({
         email: requestData.email,
-      },
-    });
-
-    if (foundUserByEmail) {
-      return res.status(StatusCodes.CONFLICT).json({
-        message: "Email is already in use.",
       });
-    }
 
-    next();
+      if (foundUserByEmail) {
+        throw userError.emailIsInUse;
+      }
+      next();
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  async checkLogin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const requestData = req.body;
+      if (!REGEX.email.test(requestData.email)) {
+        throw userError.emailIsInvalid;
+      }
+      // if (!REGEX.password.test(requestData.password)) {
+      //   throw userError.emailPasswordIsIncorrect;
+      // }
+      const user = await User.findOne({
+        email: requestData.email,
+      });
+
+      if (!user) {
+        throw userError.emailPasswordIsIncorrect;
+      }
+
+      const isCorrect = await bcrypt.compare(
+        requestData?.password,
+        user?.password!
+      );
+
+      if (!isCorrect) {
+        throw userError.emailPasswordIsIncorrect;
+      }
+
+      res.locals.user = user;
+      next();
+    } catch (err) {
+      next(err);
+    }
   },
 };
 

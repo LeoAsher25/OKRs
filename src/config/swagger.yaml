@@ -1,0 +1,147 @@
+openapi: 3.0.3
+info:
+  title: OKRs API
+  description: Documentation for OKRs API
+  version: 0.1.0
+
+servers:
+  - url: http://localhost:2507/api/v1
+    description: Production
+
+paths:
+  /auth/sign-up:
+    post:
+      tags:
+        - auth
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+
+              required:
+                - email
+                - password
+                - firstName
+                - lastName
+
+      responses:
+        "200": # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  user:
+                    $ref: "#/components/schemas/User"
+
+  /auth/login:
+    post:
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenResponse"
+
+  /auth/refresh-token:
+    post:
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenResponse"
+
+tags:
+  - name: auth
+    description: Authentication APIs
+  - name: user
+  - name: objective
+  - name: keyresults
+  - name: commit
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        _id:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        __v:
+          type: number
+    TokenResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        expiresAt:
+          type: number
+        refreshToken:
+          type: string
+        refreshExpiresAt:
+          type: number
+
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - BasicAuth: []

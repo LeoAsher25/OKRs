@@ -8,6 +8,8 @@ export interface ObjectiveDto {
   createdAt?: Date;
   updatedAt?: Date;
   keyResults: KeyResultDto[];
+  userId: string;
+  status: string;
 }
 
 export type ObjectiveCreateData = Pick<

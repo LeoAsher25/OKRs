@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import passport from "passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import User from "src/models/user.model";
+import { LoginSessionInfo } from "src/types/auth.type";
 
 passport.use(
   new Strategy(
@@ -27,7 +28,11 @@ passport.use(
         if (!user[0]) {
           return done(null, false);
         }
-        done(null, user[0]);
+        const loginSessionId: LoginSessionInfo = {
+          _id: user[0]._id,
+          email: user[0].email,
+        };
+        done(null, loginSessionId);
       } catch (error) {
         console.log("err: ", error);
         done(error, false);

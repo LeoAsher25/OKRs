@@ -18,16 +18,22 @@ const userError = {
     "Email is invalid"
   ),
 
+  emailIsIncorrect: new OkrError(
+    StatusCodes.UNAUTHORIZED,
+    ErrorCodes.UNAUTHORIZED,
+    "Email does not belong to any account"
+  ),
+
   passwordIsInvalid: new OkrError(
     StatusCodes.BAD_REQUEST,
     ErrorCodes.BAD_REQUEST,
     "Password "
   ),
 
-  emailPasswordIsIncorrect: new OkrError(
-    StatusCodes.BAD_REQUEST,
-    ErrorCodes.BAD_REQUEST,
-    "Email or password is incorrect"
+  passwordIsIncorrect: new OkrError(
+    StatusCodes.UNAUTHORIZED,
+    ErrorCodes.UNAUTHORIZED,
+    "Password is incorrect"
   ),
 
   noToken: new OkrError(

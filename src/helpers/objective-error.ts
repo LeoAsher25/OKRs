@@ -7,6 +7,12 @@ const objectiveError = {
     ErrorCodes.BAD_REQUEST,
     "Objective type is invalid"
   ),
+
+  objectiveNotFound: new OkrError(
+    StatusCodes.NOT_FOUND,
+    ErrorCodes.NOT_FOUND,
+    "Objective not found"
+  ),
 };
 
 export default objectiveError;

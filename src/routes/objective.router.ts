@@ -5,7 +5,8 @@ import objectiveMiddleware from "src/middleware/objective.middleware";
 const objectiveRouter = Router();
 
 objectiveRouter
+  .post("/", objectiveMiddleware.checkCreate, objectiveController.create)
   .get("/", objectiveController.getAll)
-  .post("/", objectiveMiddleware.checkCreate, objectiveController.create);
+  .get("/:id", objectiveController.getOne);
 
 export default objectiveRouter;

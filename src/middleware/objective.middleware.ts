@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import commonError from "src/helpers/common-error";
 import objectiveError from "src/helpers/objective-error";
 import ValidationHelper from "src/helpers/validation";
+import { RequestWithUser } from "src/types/auth.type";
 import { ObjectiveCreateData, ObjectiveType } from "src/types/objective.type";
 
 const objectiveMiddleware = {

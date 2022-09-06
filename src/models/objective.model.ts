@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { ObjectiveDto } from "src/types/objective.type";
-import { KeyResultSchema } from "./KeyResult.model";
+import { KeyResultSchema } from "./keyResult.model";
 
 export const ObjectiveSchema = new mongoose.Schema<ObjectiveDto>(
   {

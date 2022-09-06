@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { KeyResultDto } from "src/types/objective.type";
-import { CommitSchema } from "src/models/Commit.model";
+import { CommitSchema } from "src/models/commit.model";
 
 export const KeyResultSchema = new mongoose.Schema<KeyResultDto>(
   {

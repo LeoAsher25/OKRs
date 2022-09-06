@@ -1,9 +1,9 @@
-import User from "src/models/User.model";
+import User from "src/models/user.model";
 import { UserDto, UserSignUpData } from "src/types/user.type";
 import bcrypt from "bcryptjs";
 import { ETokenType, TokenResponse } from "src/types/auth.type";
 import JWT from "jsonwebtoken";
-import Session from "src/models/Session.model";
+import Session from "src/models/session.model";
 
 const authServices = {
   encodedToken(userId: any, username: string, tokenType: ETokenType): string {

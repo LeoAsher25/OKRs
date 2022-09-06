@@ -3,8 +3,8 @@ import { NextFunction, Request, Response } from "express";
 import commonError from "src/helpers/common-error";
 import userError from "src/helpers/user-error";
 import ValidationHelper from "src/helpers/validation";
-import Session from "src/models/Session.model";
-import User from "src/models/User.model";
+import Session from "src/models/session.model";
+import User from "src/models/user.model";
 import { UserSignUpData } from "src/types/user.type";
 
 const authMiddleware = {
@@ -24,10 +24,6 @@ const authMiddleware = {
       if (!ValidationHelper.email.test(requestData.email)) {
         throw userError.emailIsInvalid;
       }
-
-      // if (!ValidationHelper.password.test(requestData.password)) {
-      //   throw userError.emailPasswordIsIncorrect;
-      // }
 
       const foundUserByEmail = await User.findOne({
         email: requestData.email,
@@ -56,7 +52,7 @@ const authMiddleware = {
       });
 
       if (!user) {
-        throw userError.emailPasswordIsIncorrect;
+        throw userError.emailIsIncorrect;
       }
 
       const isCorrect = await bcrypt.compare(
@@ -65,7 +61,7 @@ const authMiddleware = {
       );
 
       if (!isCorrect) {
-        throw userError.emailPasswordIsIncorrect;
+        throw userError.passwordIsIncorrect;
       }
 
       res.locals.user = user;

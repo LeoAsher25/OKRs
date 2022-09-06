@@ -1,4 +1,4 @@
-import User from "src/models/User.model";
+import User from "src/models/user.model";
 import { UserUpdateData } from "src/types/user.type";
 
 const userService = {

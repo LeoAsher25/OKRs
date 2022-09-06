@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import passport from "passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
-import User from "src/models/User.model";
+import User from "src/models/user.model";
 
 passport.use(
   new Strategy(

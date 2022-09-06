@@ -34,7 +34,20 @@ const objectiveService = {
       const response = await Objective.findOne({ _id });
       if (!response) {
         throw objectiveError.objectiveNotFound;
-      } else return response;
+      }
+      return response;
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async delete(_id: string) {
+    try {
+      const response = await Objective.findOneAndDelete({ _id });
+      if (!response) {
+        throw objectiveError.objectiveNotFound;
+      }
+      return response;
     } catch (err) {
       throw err;
     }

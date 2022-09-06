@@ -7,6 +7,7 @@ const objectiveRouter = Router();
 objectiveRouter
   .post("/", objectiveMiddleware.checkCreate, objectiveController.create)
   .get("/", objectiveController.getAll)
-  .get("/:id", objectiveController.getOne);
+  .get("/:id", objectiveController.getOne)
+  .delete("/:id", objectiveController.delete);
 
 export default objectiveRouter;

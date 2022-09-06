@@ -8,6 +8,7 @@ objectiveRouter
   .post("/", objectiveMiddleware.checkCreate, objectiveController.create)
   .get("/", objectiveController.getAll)
   .get("/:id", objectiveController.getOne)
-  .delete("/:id", objectiveController.delete);
+  .delete("/:id", objectiveController.delete)
+  .put("/:id", objectiveController.update);
 
 export default objectiveRouter;

@@ -2,7 +2,7 @@ import { OkrError } from "src/error";
 import objectiveError from "src/helpers/objective-error";
 import Objective from "src/models/objective.model";
 import { LoginSessionInfo } from "src/types/auth.type";
-import { ObjectiveCreateData } from "src/types/objective.type";
+import { ObjectiveRequestData } from "src/types/objective.type";
 import { ErrorCodes, StatusCodes } from "src/types/status-code.enum";
 
 const objectiveService = {
@@ -16,7 +16,7 @@ const objectiveService = {
     }
   },
 
-  async create(data: ObjectiveCreateData, user: LoginSessionInfo) {
+  async create(data: ObjectiveRequestData, user: LoginSessionInfo) {
     try {
       const objective = {
         ...data,
@@ -31,7 +31,7 @@ const objectiveService = {
 
   async getOne(_id: string) {
     try {
-      const response = await Objective.findOne({ _id });
+      const response = await Objective.findOne({ _id }).lean();
       if (!response) {
         throw objectiveError.objectiveNotFound;
       }
@@ -43,11 +43,23 @@ const objectiveService = {
 
   async delete(_id: string) {
     try {
-      const response = await Objective.findOneAndDelete({ _id });
+      const response = await Objective.findOneAndDelete({ _id }).lean();
       if (!response) {
         throw objectiveError.objectiveNotFound;
       }
       return response;
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async update(data: ObjectiveRequestData, _id: string) {
+    try {
+      const response = await Objective.findOneAndUpdate({ _id }, data).lean();
+      if (!response) {
+        throw objectiveError.objectiveNotFound;
+      }
+      return { ...response, ...data };
     } catch (err) {
       throw err;
     }

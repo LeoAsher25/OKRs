@@ -12,7 +12,7 @@ export interface ObjectiveDto {
   status: string;
 }
 
-export type ObjectiveCreateData = Pick<
+export type ObjectiveRequestData = Pick<
   ObjectiveDto,
   "name" | "type" | "description" | "deadline"
 >;

@@ -1,9 +1,7 @@
-import { OkrError } from "src/error";
 import objectiveError from "src/helpers/objective-error";
 import Objective from "src/models/objective.model";
 import { LoginSessionInfo } from "src/types/auth.type";
 import { ObjectiveRequestData } from "src/types/objective.type";
-import { ErrorCodes, StatusCodes } from "src/types/status-code.enum";
 
 const objectiveService = {
   async getAll(user: LoginSessionInfo) {

@@ -28,7 +28,7 @@ const objectiveController = {
 
   async getOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const id = req.params.id;
+      const id = req.params.objectiveId;
       const response = await objectiveService.getOne(id);
       return res.status(StatusCodes.OK).json(response);
     } catch (err) {
@@ -38,7 +38,7 @@ const objectiveController = {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      const id = req.params.id;
+      const id = req.params.objectiveId;
       await objectiveService.delete(id);
       res.status(StatusCodes.OK).json({
         message: "Delete objective successfully!",
@@ -50,7 +50,7 @@ const objectiveController = {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const id = req.params.id;
+      const id = req.params.objectiveId;
       const data = req.body;
       const response = await objectiveService.update(data, id);
       res.status(StatusCodes.OK).json(response);

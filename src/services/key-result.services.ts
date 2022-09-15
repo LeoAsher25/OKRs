@@ -17,6 +17,41 @@ const keyResultServices = {
     }
   },
 
+  async update(objective: ObjectiveDto, data: KeyResultRequestData, krId: string) {
+    try {
+      const updatedObjective = await Objective.findOneAndUpdate({
+        _id: objective._id,
+      },
+        {
+          keyResults: objective.keyResults.map((kr) => {
+            return kr._id != krId ? kr : {
+              ...kr,
+              ...data
+            }
+          })
+        }).lean()
+      return updatedObjective
+    }
+    catch (err) {
+      throw err
+    }
+  },
+
+  async delete(objective: ObjectiveDto, krId: string) {
+    try {
+      const updatedObjective = await Objective.findOneAndUpdate({
+        _id: objective._id,
+      },
+        {
+          keyResults: objective.keyResults.filter((kr) => kr._id == krId)
+        }).lean()
+      return updatedObjective
+    }
+    catch (err) {
+      throw err
+    }
+  }
+
 }
 
 export default keyResultServices;

@@ -38,7 +38,39 @@ const keyResultController = {
     catch (err) {
       next(err)
     }
-  }
+  },
+
+  async updateKeyResult(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data: KeyResultRequestData = req.body
+      const { krId } = req.params
+      const { objective } = res.locals
+      const updatedObjective = await keyResultServices.update(objective, data, krId)
+
+      return res.status(StatusCodes.OK).json({
+        message: "Update key result successfully"
+      })
+    }
+    catch (err) {
+      next(err)
+    }
+  },
+
+  async deleteKeyResult(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { krId } = req.params
+      const { objective } = res.locals
+      await keyResultServices.delete(objective, krId)
+
+      return res.status(StatusCodes.OK).json({
+        message: "Delete key result successfully"
+      })
+    }
+    catch (err) {
+      next(err)
+    }
+  },
+
 
 }
 

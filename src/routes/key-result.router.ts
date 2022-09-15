@@ -4,7 +4,7 @@ import keyResultMiddleware from 'src/middleware/key-result.middleware';
 
 const keyResultRouter = Router()
 
-keyResultRouter.post('/', keyResultMiddleware.createKeyResult, keyResultController.createKeyResult)
+keyResultRouter.post('/', keyResultMiddleware.checkRequestData, keyResultController.createKeyResult)
 keyResultRouter.get('/', keyResultMiddleware.checkValidObjectiveId, keyResultController.getAllKeyResults)
 keyResultRouter.get('/:krId', keyResultMiddleware.checkValidObjectiveId, keyResultMiddleware.checkGetOneKeyResult, keyResultController.getOneKeyResult)
 keyResultRouter.put('/:krId')

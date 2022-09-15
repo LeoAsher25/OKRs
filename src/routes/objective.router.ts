@@ -14,8 +14,10 @@ objectiveRouter
   .delete("/:objectiveId", objectiveController.delete)
   .put("/:objectiveId", objectiveController.update)
   // .use("/:objectiveId/key-result", keyResultRouter)
-  .post('/:objectiveId/key-results', keyResultMiddleware.checkValidObjectiveId, keyResultMiddleware.createKeyResult, keyResultController.createKeyResult)
+  .post('/:objectiveId/key-results', keyResultMiddleware.checkValidObjectiveId, keyResultMiddleware.checkRequestData, keyResultController.createKeyResult)
   .get('/:objectiveId/key-results', keyResultMiddleware.checkValidObjectiveId, keyResultController.getAllKeyResults)
   .get('/:objectiveId/key-results/:krId', keyResultMiddleware.checkValidObjectiveId, keyResultMiddleware.checkGetOneKeyResult, keyResultController.getOneKeyResult)
+  .put('/:objectiveId/key-results/:krId', keyResultMiddleware.checkValidObjectiveId, keyResultMiddleware.checkRequestData, keyResultController.updateKeyResult)
+  .delete('/:objectiveId/key-results/:krId', keyResultMiddleware.checkValidObjectiveId, keyResultController.deleteKeyResult)
 
 export default objectiveRouter;

@@ -56,7 +56,7 @@ const keyResultMiddleware = {
     }
   },
 
-  async createKeyResult(req: Request, res: Response, next: NextFunction) {
+  async checkRequestData(req: Request, res: Response, next: NextFunction) {
     try {
       const data: KeyResultRequestData = req.body;
       if (!data.name || !data.deadline) {

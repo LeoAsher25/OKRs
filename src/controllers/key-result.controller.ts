@@ -30,6 +30,15 @@ const keyResultController = {
     }
   },
 
+  getOneKeyResult(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { keyResult } = res.locals
+      return res.status(StatusCodes.OK).json(keyResult)
+    }
+    catch (err) {
+      next(err)
+    }
+  }
 
 }
 

@@ -16,7 +16,6 @@ objectiveRouter
   // .use("/:objectiveId/key-result", keyResultRouter)
   .post('/:objectiveId/key-results', keyResultMiddleware.checkValidObjectiveId, keyResultMiddleware.createKeyResult, keyResultController.createKeyResult)
   .get('/:objectiveId/key-results', keyResultMiddleware.checkValidObjectiveId, keyResultController.getAllKeyResults)
-
-
+  .get('/:objectiveId/key-results/:krId', keyResultMiddleware.checkValidObjectiveId, keyResultMiddleware.checkGetOneKeyResult, keyResultController.getOneKeyResult)
 
 export default objectiveRouter;

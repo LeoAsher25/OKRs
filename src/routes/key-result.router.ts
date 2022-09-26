@@ -2,7 +2,9 @@ import { Router } from 'express';
 import keyResultController from 'src/controllers/key-result.controller';
 import keyResultMiddleware from 'src/middleware/key-result.middleware';
 
-const keyResultRouter = Router()
+const keyResultRouter = Router({
+  mergeParams: true
+})
 
 keyResultRouter.post('/', keyResultMiddleware.checkRequestData, keyResultController.createKeyResult)
 keyResultRouter.get('/', keyResultMiddleware.checkValidObjectiveId, keyResultController.getAllKeyResults)

@@ -1,16 +1,16 @@
-import User from "src/models/user.model";
-import { UserDto, UserSignUpData } from "src/types/user.type";
-import bcrypt from "bcryptjs";
-import { ETokenType, TokenResponse } from "src/types/auth.type";
-import JWT from "jsonwebtoken";
-import Session from "src/models/session.model";
+import User from 'src/models/user.model';
+import { UserDto, UserSignUpData } from 'src/types/user.type';
+import bcrypt from 'bcryptjs';
+import { ETokenType, TokenResponse } from 'src/types/auth.type';
+import JWT from 'jsonwebtoken';
+import Session from 'src/models/session.model';
 
 const authServices = {
   encodedToken(userId: any, username: string, tokenType: ETokenType): string {
     return JWT.sign(
       {
         sub: userId,
-        iss: username,
+        iss: username
       },
       tokenType === ETokenType.ACCESS_TOKEN
         ? process.env.JWT_SECRET_ACCESS_TOKEN!
@@ -19,7 +19,7 @@ const authServices = {
         expiresIn:
           tokenType === ETokenType.ACCESS_TOKEN
             ? Number(process.env.ACCESS_TOKEN_LIFE)
-            : Number(process.env.REFRESH_TOKEN_LIFE),
+            : Number(process.env.REFRESH_TOKEN_LIFE)
       }
     );
   },
@@ -40,40 +40,30 @@ const authServices = {
 
   async login(user: UserDto) {
     try {
-      const accessToken: string = this.encodedToken(
-        user?._id,
-        user?.email,
-        ETokenType.ACCESS_TOKEN
-      );
+      const accessToken: string = this.encodedToken(user?._id, user?.email, ETokenType.ACCESS_TOKEN);
 
       let tokenResponse: TokenResponse = {
         accessToken,
         expiresAt: Date.now() + Number(process.env.ACCESS_TOKEN_LIFE),
-        refreshExpiresAt: Date.now() + Number(process.env.REFRESH_TOKEN_LIFE),
+        refreshExpiresAt: Date.now() + Number(process.env.REFRESH_TOKEN_LIFE)
       };
 
       const userToken = await Session.findOne({
-        userId: user?._id,
+        userId: user?._id
       });
 
       if (userToken) {
-        tokenResponse["refreshToken"] = userToken.token as string;
+        tokenResponse['refreshToken'] = userToken.token as string;
       } else {
-        const refreshToken: string = this.encodedToken(
-          user?._id,
-          user?.email,
-          ETokenType.REFRESH_TOKEN
-        );
+        const refreshToken: string = this.encodedToken(user?._id, user?.email, ETokenType.REFRESH_TOKEN);
 
         await Session.create({
           userId: user?._id,
           token: refreshToken,
-          expireAt: new Date(
-            Date.now() + Number(process.env.REFRESH_TOKEN_LIFE)
-          ),
+          expireAt: new Date(Date.now() + Number(process.env.REFRESH_TOKEN_LIFE))
         });
 
-        tokenResponse["refreshToken"] = refreshToken;
+        tokenResponse['refreshToken'] = refreshToken;
       }
 
       return tokenResponse;
@@ -87,29 +77,21 @@ const authServices = {
       let tokenResponse: TokenResponse = {
         refreshToken,
         expiresAt: Date.now() + Number(process.env.ACCESS_TOKEN_LIFE),
-        refreshExpiresAt: Date.now() + Number(process.env.REFRESH_TOKEN_LIFE),
+        refreshExpiresAt: Date.now() + Number(process.env.REFRESH_TOKEN_LIFE)
       };
 
-      JWT.verify(
-        refreshToken,
-        process.env.JWT_SECRET_REFRESH_TOKEN!,
-        (err: any, decoded: any) => {
-          if (err) {
-            throw err;
-          } else {
-            tokenResponse["accessToken"] = this.encodedToken(
-              decoded.sub,
-              decoded.iss,
-              ETokenType.ACCESS_TOKEN
-            );
-          }
+      JWT.verify(refreshToken, process.env.JWT_SECRET_REFRESH_TOKEN!, (err: any, decoded: any) => {
+        if (err) {
+          throw err;
+        } else {
+          tokenResponse['accessToken'] = this.encodedToken(decoded.sub, decoded.iss, ETokenType.ACCESS_TOKEN);
         }
-      );
+      });
       return tokenResponse;
     } catch (err) {
       throw err;
     }
-  },
+  }
 };
 
 export default authServices;

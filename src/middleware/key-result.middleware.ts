@@ -7,55 +7,36 @@ import objectiveError from 'src/helpers/objective-error';
 import mongoose from 'mongoose';
 
 const keyResultMiddleware = {
-  async checkValidObjectiveId(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { objectiveId } = req.params;
-
-      if (!ValidationHelper.objectId(objectiveId)) {
-        throw commonError.invalidObjectId;
-      }
-      const objective = await Objective.findOne({ _id: objectiveId }).lean();
-
-      if (!objective) {
-        throw objectiveError.objectiveNotFound;
-      }
-      res.locals.objective = objective;
-      next();
-    } catch (err) {
-      next(err);
-    }
-  },
-
   async checkGetOneKeyResult(req: Request, res: Response, next: NextFunction) {
     try {
       const { objectiveId, krId } = req.params;
       if (!ValidationHelper.objectId(krId)) {
         throw commonError.invalidObjectId;
       }
-      // const objective = await Objective.findOne({ _id: objectiveId }).lean()
-      // const keyResult = objective?.keyResults.find((kr) => kr._id == krId)
+      const objective = await Objective.findOne({ _id: objectiveId }).lean();
+      const keyResult = objective?.keyResults.find(kr => kr._id == krId);
 
-      const keyResult = await Objective.aggregate([
-        {
-          $match: {
-            _id: new mongoose.Types.ObjectId(objectiveId)
-            // 'keyResults._id': new mongoose.Types.ObjectId(krId)
-          }
-        },
-        // {
-        //   $project: {
-        //     keyResults: 1
-        //   }
-        // },
-        {
-          $addFields: {
-            keyResult: '$keyResults'
-            // $match: {
-            //   '$keyResults._id': new mongoose.Types.ObjectId(krId)
-            // }
-          }
-        }
-      ]);
+      // const keyResult = await Objective.aggregate([
+      //   {
+      //     $match: {
+      //       _id: new mongoose.Types.ObjectId(objectiveId)
+      //       // 'keyResults._id': new mongoose.Types.ObjectId(krId)
+      //     }
+      //   },
+      //   // {
+      //   //   $project: {
+      //   //     keyResults: 1
+      //   //   }
+      //   // },
+      //   {
+      //     $addFields: {
+      //       keyResult: '$keyResults'
+      //       // $match: {
+      //       //   '$keyResults._id': new mongoose.Types.ObjectId(krId)
+      //       // }
+      //     }
+      //   }
+      // ]);
 
       if (!keyResult) {
         throw objectiveError.keyResultNotFound;

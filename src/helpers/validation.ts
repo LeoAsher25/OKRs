@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const ValidationHelper = {
   email: /^[\w\.]+@([\w]+\.)+[\w]{2,7}$/,
@@ -9,11 +9,13 @@ const ValidationHelper = {
   },
   objectId: (id: string) => {
     if (mongoose.Types.ObjectId.isValid(id)) {
-      if ((String)(new mongoose.Types.ObjectId(id)) === id)
-        return true;
+      if (String(new mongoose.Types.ObjectId(id)) === id) return true;
       return false;
     }
     return false;
+  },
+  isNumeric(value: string) {
+    return /^\d+$/.test(value);
   }
 };
 export default ValidationHelper;

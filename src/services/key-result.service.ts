@@ -73,7 +73,6 @@ const keyResultServices = {
       ).lean();
       return updatedObjective;
     } catch (err) {
-      console.log('error: ', err);
       throw err;
     }
   },

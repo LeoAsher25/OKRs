@@ -30,8 +30,8 @@ const objectiveService = {
         {
           $project: {
             userId: 0,
-            __v: 0,
-            keyResults: 0 // ???
+            __v: 0
+            // keyResults: 0 // ???
           }
         }
       ]);

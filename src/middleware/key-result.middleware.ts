@@ -1,10 +1,9 @@
-import ValidationHelper from 'src/helpers/validation';
 import { NextFunction, Request, Response } from 'express';
 import commonError from 'src/helpers/common-error';
-import { KeyResultRequestData } from 'src/types/objective.type';
-import Objective from 'src/models/objective.model';
 import objectiveError from 'src/helpers/objective-error';
-import mongoose from 'mongoose';
+import ValidationHelper from 'src/helpers/validation';
+import Objective from 'src/models/objective.model';
+import { KeyResultRequestData } from 'src/types/objective.type';
 
 const keyResultMiddleware = {
   async checkGetOneKeyResult(req: Request, res: Response, next: NextFunction) {
@@ -58,18 +57,6 @@ const keyResultMiddleware = {
         throw commonError.invalidDate;
       }
 
-      next();
-    } catch (err) {
-      next(err);
-    }
-  },
-
-  async checkProgress(req: Request, res: Response, next: NextFunction) {
-    try {
-      const progress = req.body;
-      if (progress > 100 || progress < 0) {
-        next(objectiveError.progressIsInvalid);
-      }
       next();
     } catch (err) {
       next(err);

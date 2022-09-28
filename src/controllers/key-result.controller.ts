@@ -7,7 +7,6 @@ const keyResultController = {
   async createKeyResult(req: Request, res: Response, next: NextFunction) {
     try {
       const data: KeyResultRequestData = req.body;
-      console.log('params: ', req.params);
       const { objective } = res.locals;
       const updatedObjective = await keyResultServices.create(objective, data);
 

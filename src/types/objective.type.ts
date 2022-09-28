@@ -12,14 +12,11 @@ export interface ObjectiveDto {
   status: string;
 }
 
-export type ObjectiveRequestData = Pick<
-  ObjectiveDto,
-  "name" | "type" | "description" | "deadline"
->;
+export type ObjectiveRequestData = Pick<ObjectiveDto, 'name' | 'type' | 'description' | 'deadline'>;
 
 export enum ObjectiveType {
-  BREAKTHROUGH = "BREAKTHROUGH",
-  COMMIT = "COMMIT",
+  BREAKTHROUGH = 'BREAKTHROUGH',
+  COMMIT = 'COMMIT'
 }
 
 export interface KeyResultDto {
@@ -40,4 +37,4 @@ export interface CommitDto {
   createdAt: Date;
 }
 
-export type KeyResultRequestData = Pick<KeyResultDto, "name" | "deadline" | "description">
+export type KeyResultRequestData = Pick<KeyResultDto, 'name' | 'deadline' | 'description'>;

@@ -1,8 +1,9 @@
-import { NextFunction, Request, Response } from "express";
-import objectiveService from "src/services/objective.service";
-import { LoginSessionInfo, RequestWithUser } from "src/types/auth.type";
-import { ObjectiveRequestData } from "src/types/objective.type";
-import { ErrorCodes, StatusCodes } from "src/types/status-code.enum";
+import { NextFunction, Request, Response } from 'express';
+import objectiveService from 'src/services/objective.service';
+import { LoginSessionInfo, RequestWithUser } from 'src/types/auth.type';
+import { RequestQuery } from 'src/types/common.type';
+import { ObjectiveRequestData } from 'src/types/objective.type';
+import { ErrorCodes, StatusCodes } from 'src/types/status-code.enum';
 
 const objectiveController = {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -19,7 +20,8 @@ const objectiveController = {
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const user = req.user!;
-      const response = await objectiveService.getAll(user);
+      const query = req.query as RequestQuery;
+      const response = await objectiveService.getAll(user, query);
       return res.status(StatusCodes.OK).json(response);
     } catch (err) {
       next(err);
@@ -41,7 +43,7 @@ const objectiveController = {
       const id = req.params.objectiveId;
       await objectiveService.delete(id);
       res.status(StatusCodes.OK).json({
-        message: "Delete objective successfully!",
+        message: 'Delete objective successfully!'
       });
     } catch (err) {
       next(err);
@@ -57,6 +59,6 @@ const objectiveController = {
     } catch (err) {
       next(err);
     }
-  },
+  }
 };
 export default objectiveController;

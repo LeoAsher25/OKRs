@@ -62,6 +62,18 @@ const keyResultMiddleware = {
     } catch (err) {
       next(err);
     }
+  },
+
+  async checkProgress(req: Request, res: Response, next: NextFunction) {
+    try {
+      const progress = req.body;
+      if (progress > 100 || progress < 0) {
+        next(objectiveError.progressIsInvalid);
+      }
+      next();
+    } catch (err) {
+      next(err);
+    }
   }
 };
 

@@ -8,7 +8,13 @@ const objectiveError = {
 
   keyResultNotFound: new OkrError(StatusCodes.NOT_FOUND, ErrorCodes.NOT_FOUND, 'Key result not found'),
 
-  commitNotFound: new OkrError(StatusCodes.NOT_FOUND, ErrorCodes.NOT_FOUND, 'Key result not found')
+  commitNotFound: new OkrError(StatusCodes.NOT_FOUND, ErrorCodes.NOT_FOUND, 'Key result not found'),
+
+  progressIsInvalid: new OkrError(
+    StatusCodes.NOT_FOUND,
+    ErrorCodes.NOT_FOUND,
+    'Progress have to be a number between 0 and 100'
+  )
 };
 
 export default objectiveError;

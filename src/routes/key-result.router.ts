@@ -9,8 +9,14 @@ const keyResultRouter = Router({
 keyResultRouter.post('/', keyResultMiddleware.checkRequestData, keyResultController.createKeyResult);
 keyResultRouter.get('/', keyResultController.getAllKeyResults);
 keyResultRouter.get('/:krId', keyResultMiddleware.checkGetOneKeyResult, keyResultController.getOneKeyResult);
-keyResultRouter.put('/:krId', keyResultController.updateKeyResult);
-keyResultRouter.delete('/:krId', keyResultController.deleteKeyResult);
+keyResultRouter.put('/:krId', keyResultMiddleware.checkGetOneKeyResult, keyResultController.updateKeyResult);
+keyResultRouter.put(
+  '/:krId/progress',
+  keyResultMiddleware.checkGetOneKeyResult,
+  keyResultMiddleware.checkProgress,
+  keyResultController.updateProgress
+);
+keyResultRouter.delete('/:krId', keyResultMiddleware.checkGetOneKeyResult, keyResultController.deleteKeyResult);
 // keyResultRouter.delete('/:krId/:commitId', keyResultMiddleware.checkGetOneKeyResult, commitRouter);
 
 export default keyResultRouter;

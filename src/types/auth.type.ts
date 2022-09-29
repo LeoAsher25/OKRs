@@ -1,8 +1,8 @@
-import { Request } from "express";
+import { Request } from 'express';
 
 export enum ETokenType {
-  ACCESS_TOKEN = "accessToken",
-  REFRESH_TOKEN = "refreshToken",
+  ACCESS_TOKEN = 'accessToken',
+  REFRESH_TOKEN = 'refreshToken'
 }
 
 export interface TokenResponse {

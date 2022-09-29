@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from "express";
-import authServices from "src/services/auth.service";
-import { TokenResponse } from "src/types/auth.type";
-import { StatusCodes } from "src/types/status-code.enum";
-import { UserSignUpData } from "src/types/user.type";
+import { NextFunction, Request, Response } from 'express';
+import authServices from 'src/services/auth.service';
+import { TokenResponse } from 'src/types/auth.type';
+import { StatusCodes } from 'src/types/status-code.enum';
+import { UserSignUpData } from 'src/types/user.type';
 
 const authController = {
   async register(req: Request, res: Response, next: NextFunction) {
@@ -29,14 +29,12 @@ const authController = {
     try {
       const refreshToken = res.locals.refreshToken;
 
-      let tokenResponse: TokenResponse = await authServices.refreshToken(
-        refreshToken
-      );
+      let tokenResponse: TokenResponse = await authServices.refreshToken(refreshToken);
 
       return res.status(StatusCodes.OK).json(tokenResponse);
     } catch (err) {
       throw err;
     }
-  },
+  }
 };
 export default authController;

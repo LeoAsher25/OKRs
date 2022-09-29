@@ -39,3 +39,5 @@ export interface CommitDto {
   _id: string;
   createdAt: Date;
 }
+
+export type KeyResultRequestData = Pick<KeyResultDto, "name" | "deadline" | "description">

@@ -13,6 +13,12 @@ const objectiveError = {
     ErrorCodes.NOT_FOUND,
     "Objective not found"
   ),
+
+  keyResultNotFound: new OkrError(
+    StatusCodes.NOT_FOUND,
+    ErrorCodes.NOT_FOUND,
+    "Key result not found"
+  )
 };
 
 export default objectiveError;

@@ -12,5 +12,11 @@ const commonError = {
     ErrorCodes.BAD_REQUEST,
     "Invalid date"
   ),
+  invalidObjectId: new OkrError(
+    StatusCodes.BAD_REQUEST,
+    ErrorCodes.BAD_REQUEST,
+    "Invalid objectId"
+  ),
+  
 };
 export default commonError;

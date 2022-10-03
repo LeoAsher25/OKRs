@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
-    "start": "PORT=2507 nodemon -r tsconfig-paths/register index.ts",
-    "dev": "PORT=2507 nodemon -r tsconfig-paths/register index.ts",
+    "start": "node -r ./tsconfig-path-bootstrap.js ./dist/index.js ",
+    "dev": "nodemon -r tsconfig-paths/register index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
     "lint": "eslint --ext js,jsx,ts,tsx src/",
@@ -29,6 +32,7 @@
     "passport-jwt": "^4.0.0",
     "prettier": "^2.7.1",
     "swagger-ui-express": "^4.5.0",
+    "tsconfig-paths": "^4.1.0",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
@@ -42,7 +46,6 @@
     "nodemon": "^2.0.19",
     "ts-jest": "^29.0.1",
     "ts-node": "^10.9.1",
-    "tsconfig-paths": "^4.1.0",
     "typescript": "^4.7.4"
   }
 }

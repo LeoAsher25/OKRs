@@ -2,8 +2,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
-import connectDB from 'src/config/mongodb';
 import rootPath from 'src/constants/root-path';
+import connectDB from 'src/config/mongodb';
 import ErrorHandler from 'src/middleware/error-handler';
 import mainRouter from 'src/routes/index';
 import swaggerUi from 'swagger-ui-express';

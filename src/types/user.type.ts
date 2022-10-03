@@ -1,4 +1,4 @@
-import { ObjectiveDto } from "./objective.type";
+import { ObjectiveDto } from './objective.type';
 
 export interface UserDto {
   email: string;
@@ -14,7 +14,6 @@ export interface UserDto {
   objectives?: ObjectiveDto[];
 }
 
-export type UserSignUpData = Pick<
-  UserDto,
-  "email" | "password" | "firstName" | "lastName"
->;
+export type UserSignUpData = Pick<UserDto, 'email' | 'password' | 'firstName' | 'lastName'>;
+
+export type UserUpdateData = Pick<UserDto, 'firstName' | 'lastName' | 'phoneNumber' | 'dob' | 'address'>;

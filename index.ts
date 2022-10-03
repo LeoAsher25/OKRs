@@ -8,7 +8,7 @@ import ErrorHandler from "src/middleware/error-handler";
 import mainRouter from "src/routes/index";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
-const swaggerDocument = YAML.load("src/docs/basicInfo.yaml");
+const swaggerDocument = YAML.load("src/config/swagger.yaml");
 const port = process.env.PORT || 3000;
 
 connectDB();

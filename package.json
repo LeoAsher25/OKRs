@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "PORT=2507 nodemon -r tsconfig-paths/register index.ts",
-    "dev": "PORT=2507 nodemon -r tsconfig-paths/register index.ts",
+    "start": "nodemon -r tsconfig-paths/register index.ts",
+    "dev": "nodemon -r tsconfig-paths/register index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
     "lint": "eslint --ext js,jsx,ts,tsx src/",

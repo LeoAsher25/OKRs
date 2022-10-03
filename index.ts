@@ -10,7 +10,6 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 const swaggerDocument = YAML.load('src/config/swagger.yaml');
 const port = process.env.PORT || 3000;
-console.log('port: ', process.env.PORT);
 
 connectDB();
 const app = express();

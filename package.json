@@ -7,7 +7,7 @@
     "node": "16.x"
   },
   "scripts": {
-    "start": "node index.ts",
+    "start": "node -r ./tsconfig-path-bootstrap.js ./dist/index.js ",
     "dev": "nodemon -r tsconfig-paths/register index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",

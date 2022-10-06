@@ -10,14 +10,14 @@ const objectiveRouter = Router({
 });
 
 objectiveRouter
-  .post('/', objectiveMiddleware.checkCreate, objectiveController.create)
-  .get('/', objectiveController.getAll)
+  .post('/', objectiveMiddleware.checkRequestData, objectiveController.create)
+  .get('/', objectiveController.getMany)
   .get('/:objectiveId', objectiveController.getOne)
   .delete('/:objectiveId', objectiveController.delete)
-  .put('/:objectiveId', objectiveController.update)
+  .put('/:objectiveId', objectiveMiddleware.checkRequestData, objectiveController.update)
   .use('/:objectiveId/key-results', objectiveMiddleware.checkValidObjectiveId, keyResultRouter);
 // .post('/:objectiveId/key-results', keyResultMiddleware.checkValidObjectiveId, keyResultMiddleware.checkRequestData, keyResultController.createKeyResult)
-// .get('/:objectiveId/key-results', keyResultMiddleware.checkValidObjectiveId, keyResultController.getAllKeyResults)
+// .get('/:objectiveId/key-results', keyResultMiddleware.checkValidObjectiveId, keyResultController.getManyKeyResults)
 // .get('/:objectiveId/key-results/:krId', keyResultMiddleware.checkValidObjectiveId, keyResultMiddleware.checkGetOneKeyResult, keyResultController.getOneKeyResult)
 // .put('/:objectiveId/key-results/:krId', keyResultMiddleware.checkValidObjectiveId, keyResultMiddleware.checkRequestData, keyResultController.updateKeyResult)
 // .delete('/:objectiveId/key-results/:krId', keyResultMiddleware.checkValidObjectiveId, keyResultController.deleteKeyResult)

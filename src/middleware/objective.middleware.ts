@@ -7,7 +7,7 @@ import { RequestWithUser } from 'src/types/auth.type';
 import { ObjectiveRequestData, ObjectiveType } from 'src/types/objective.type';
 
 const objectiveMiddleware = {
-  async checkCreate(req: Request, res: Response, next: NextFunction) {
+  async checkRequestData(req: Request, res: Response, next: NextFunction) {
     try {
       const data: ObjectiveRequestData = req.body;
       if (!data.name || !data.type || !data.deadline) {
@@ -19,6 +19,19 @@ const objectiveMiddleware = {
       if (Object.values(ObjectiveType).every(type => type !== data.type)) {
         throw objectiveError.typeIsInvalid;
       }
+      const objByName = await Objective.findOne({
+        name: data.name
+      }).lean();
+      if (objByName) {
+        throw objectiveError.isExistedName;
+      }
+      const objByDescription = await Objective.findOne({
+        description: data.description
+      }).lean();
+      if (objByDescription) {
+        throw objectiveError.isExistedDescription;
+      }
+
       next();
     } catch (err) {
       next(err);

@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
+import mongoose from 'mongoose';
 import commonError from 'src/helpers/common-error';
 import objectiveError from 'src/helpers/objective-error';
 import ValidationHelper from 'src/helpers/validation';
 import Objective from 'src/models/objective.model';
-import { KeyResultRequestData } from 'src/types/objective.type';
+import { KeyResultRequestData, ObjectiveDto } from 'src/types/objective.type';
 
 const keyResultMiddleware = {
   async checkGetOneKeyResult(req: Request, res: Response, next: NextFunction) {
@@ -12,35 +13,31 @@ const keyResultMiddleware = {
       if (!ValidationHelper.objectId(krId)) {
         throw commonError.invalidObjectId;
       }
-      const objective = await Objective.findOne({ _id: objectiveId }).lean();
-      const keyResult = objective?.keyResults.find(kr => kr._id == krId);
 
-      // const keyResult = await Objective.aggregate([
-      //   {
-      //     $match: {
-      //       _id: new mongoose.Types.ObjectId(objectiveId)
-      //       // 'keyResults._id': new mongoose.Types.ObjectId(krId)
-      //     }
-      //   },
-      //   // {
-      //   //   $project: {
-      //   //     keyResults: 1
-      //   //   }
-      //   // },
-      //   {
-      //     $addFields: {
-      //       keyResult: '$keyResults'
-      //       // $match: {
-      //       //   '$keyResults._id': new mongoose.Types.ObjectId(krId)
-      //       // }
-      //     }
-      //   }
-      // ]);
+      const objective = await Objective.findOne(
+        {
+          _id: new mongoose.Types.ObjectId(objectiveId)
+        },
+        {
+          keyResults: {
+            $filter: {
+              input: '$keyResults',
+              as: 'keyResults',
+              cond: { $eq: ['$$keyResults._id', new mongoose.Types.ObjectId(krId)] }
+            },
+            $project: {
+              commits: 0,
+              updatedAt: 0,
+              createdAt: 0
+            }
+          }
+        }
+      );
 
-      if (!keyResult) {
+      if (!objective?.keyResults[0]) {
         throw objectiveError.keyResultNotFound;
       }
-      res.locals.keyResult = keyResult;
+      res.locals.keyResult = objective?.keyResults[0];
       next();
     } catch (err) {
       next(err);

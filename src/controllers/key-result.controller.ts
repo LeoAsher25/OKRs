@@ -17,7 +17,7 @@ const keyResultController = {
       next(err);
     }
   },
-  async getAllKeyResults(req: Request, res: Response, next: NextFunction) {
+  async getManyKeyResults(req: Request, res: Response, next: NextFunction) {
     try {
       const { objective } = res.locals;
       return res.status(StatusCodes.OK).json(objective.keyResults);

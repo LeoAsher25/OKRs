@@ -10,8 +10,7 @@ export const ObjectiveSchema = new mongoose.Schema<ObjectiveDto>(
     deadline: Date,
     progress: Number,
     keyResults: [KeyResultSchema],
-    userId: mongoose.Types.ObjectId,
-    status: String
+    userId: mongoose.Types.ObjectId
   },
   {
     timestamps: true
@@ -19,5 +18,4 @@ export const ObjectiveSchema = new mongoose.Schema<ObjectiveDto>(
 );
 
 const Objective = mongoose.model('Objective', ObjectiveSchema);
-
 export default Objective;

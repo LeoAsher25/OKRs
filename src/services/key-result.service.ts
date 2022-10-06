@@ -4,12 +4,13 @@ import { KeyResultRequestData, ObjectiveDto } from 'src/types/objective.type';
 const keyResultServices = {
   async create(objective: ObjectiveDto, data: KeyResultRequestData) {
     try {
+      const keyResults = [...objective.keyResults, data];
       const updatedObjective = await Objective.findOneAndUpdate(
         {
           _id: objective._id
         },
         {
-          keyResults: [...objective.keyResults, data]
+          keyResults
         }
       ).lean();
       return updatedObjective;
@@ -20,19 +21,20 @@ const keyResultServices = {
 
   async update(objective: ObjectiveDto, data: KeyResultRequestData, krId: string) {
     try {
+      const keyResults = objective.keyResults.map(kr => {
+        return kr._id != krId
+          ? kr
+          : {
+              ...kr,
+              ...data
+            };
+      });
       const updatedObjective = await Objective.findOneAndUpdate(
         {
           _id: objective._id
         },
         {
-          keyResults: objective.keyResults.map(kr => {
-            return kr._id != krId
-              ? kr
-              : {
-                  ...kr,
-                  ...data
-                };
-          })
+          keyResults
         }
       ).lean();
       return updatedObjective;
@@ -42,7 +44,7 @@ const keyResultServices = {
   },
 
   async updateProgess(objective: ObjectiveDto, progress: number, krId: string) {
-    const newObject = {
+    const newObjective = {
       ...objective,
       keyResults: objective.keyResults.map(kr => {
         return kr._id != krId
@@ -54,12 +56,11 @@ const keyResultServices = {
       })
     };
 
-    const numberKrDone = newObject.keyResults.reduce(
+    const numberKrDone = newObjective.keyResults.reduce(
       (currentCount, currentEle) => (currentCount += currentEle.progress === 100 ? 1 : 0),
       0
     );
-    const newObjProgress = (numberKrDone * 100) / newObject.keyResults.length;
-    // newObject.progress = newObjProgress;
+    const newObjProgress = (numberKrDone * 100) / newObjective.keyResults.length;
 
     try {
       const updatedObjective = await Objective.findOneAndUpdate(
@@ -67,7 +68,7 @@ const keyResultServices = {
           _id: objective._id
         },
         {
-          ...newObject,
+          ...newObjective,
           progress: newObjProgress
         }
       ).lean();
@@ -79,12 +80,13 @@ const keyResultServices = {
 
   async delete(objective: ObjectiveDto, krId: string) {
     try {
+      const keyResults = objective.keyResults.filter(kr => kr._id != krId);
       const updatedObjective = await Objective.findOneAndUpdate(
         {
           _id: objective._id
         },
         {
-          keyResults: objective.keyResults.filter(kr => kr._id != krId)
+          keyResults
         }
       ).lean();
       return updatedObjective;

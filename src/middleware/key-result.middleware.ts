@@ -47,13 +47,17 @@ const keyResultMiddleware = {
   async checkRequestData(req: Request, res: Response, next: NextFunction) {
     try {
       const data: KeyResultRequestData = req.body;
+      const objective: ObjectiveDto = res.locals.objective;
       if (!data.name || !data.deadline) {
         throw commonError.requireFields;
       }
       if (!ValidationHelper.date(data.deadline)) {
         throw commonError.invalidDate;
       }
-
+      // new Date(date).getTime()
+      if (new Date(objective.deadline).getTime() < new Date(data.deadline).getTime()) {
+        throw objectiveError.inValidKrDeadline;
+      }
       next();
     } catch (err) {
       next(err);

@@ -23,7 +23,13 @@ const objectiveError = {
     'Progress have to be a number between 0 and 100'
   ),
 
-  commitMessageIsRequired: new OkrError(StatusCodes.NOT_FOUND, ErrorCodes.NOT_FOUND, "Commit's message is required!")
+  commitMessageIsRequired: new OkrError(StatusCodes.NOT_FOUND, ErrorCodes.NOT_FOUND, "Commit's message is required!"),
+
+  inValidKrDeadline: new OkrError(
+    StatusCodes.BAD_REQUEST,
+    ErrorCodes.BAD_REQUEST,
+    "Key result's deadline should be before objective's deadline"
+  )
 };
 
 export default objectiveError;

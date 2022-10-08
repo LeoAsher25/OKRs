@@ -17,11 +17,11 @@ const objectiveController = {
     }
   },
 
-  async getAll(req: Request, res: Response, next: NextFunction) {
+  async getMany(req: Request, res: Response, next: NextFunction) {
     try {
       const user = req.user!;
       const query = req.query as RequestQuery;
-      const response = await objectiveService.getAll(user, query);
+      const response = await objectiveService.getMany(user, query);
       return res.status(StatusCodes.OK).json(response);
     } catch (err) {
       next(err);

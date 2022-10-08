@@ -3,7 +3,7 @@ export interface ObjectiveDto {
   type: ObjectiveType;
   description: string;
   deadline: Date;
-  progress: number;
+  progress?: number;
   _id?: string;
   createdAt?: Date;
   updatedAt?: Date;

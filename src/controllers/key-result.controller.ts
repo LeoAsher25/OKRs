@@ -17,7 +17,7 @@ const keyResultController = {
       next(err);
     }
   },
-  async getAllKeyResults(req: Request, res: Response, next: NextFunction) {
+  async getManyKeyResults(req: Request, res: Response, next: NextFunction) {
     try {
       const { objective } = res.locals;
       return res.status(StatusCodes.OK).json(objective.keyResults);
@@ -50,20 +50,20 @@ const keyResultController = {
     }
   },
 
-  async updateProgress(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { progress } = req.body;
-      const { krId } = req.params;
-      const { objective } = res.locals;
-      const updatedObjective = await keyResultServices.updateProgess(objective, Number(progress), krId);
+  // async updateProgress(req: Request, res: Response, next: NextFunction) {
+  //   try {
+  //     const { progress } = req.body;
+  //     const { krId } = req.params;
+  //     const { objective } = res.locals;
+  //     const updatedObjective = await keyResultServices.updateProgess(objective, Number(progress), krId);
 
-      return res.status(StatusCodes.OK).json({
-        message: "Update key result's progress successfully"
-      });
-    } catch (err) {
-      next(err);
-    }
-  },
+  //     return res.status(StatusCodes.OK).json({
+  //       message: "Update key result's progress successfully"
+  //     });
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // },
 
   async deleteKeyResult(req: Request, res: Response, next: NextFunction) {
     try {

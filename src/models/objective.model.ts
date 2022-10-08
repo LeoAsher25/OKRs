@@ -8,7 +8,6 @@ export const ObjectiveSchema = new mongoose.Schema<ObjectiveDto>(
     type: String,
     description: String,
     deadline: Date,
-    progress: Number,
     keyResults: [KeyResultSchema],
     userId: mongoose.Types.ObjectId
   },

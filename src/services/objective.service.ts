@@ -64,14 +64,23 @@ const objectiveService = {
         { _id },
         {
           userId: 0,
-          keyResults: 0,
+          // keyResults: 0,
           __v: 0
         }
       ).lean();
+
       if (!response) {
         throw objectiveError.objectiveNotFound;
       }
-      return response;
+      const numberKrDone = response.keyResults.reduce(
+        (currentCount, currentEle) => (currentCount += currentEle.progress === 100 ? 1 : 0),
+        0
+      );
+      const newObjProgress = (numberKrDone * 100) / response.keyResults.length;
+      response.progress = newObjProgress;
+      const { keyResults, ...rest } = response;
+
+      return rest;
     } catch (err) {
       throw err;
     }

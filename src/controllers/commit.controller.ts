@@ -17,29 +17,30 @@ const commitController = {
             ? kr
             : {
                 ...kr,
-                progress: Number(requestData.progress)
+                progress: requestData.progress,
+                commits: [...kr.commits, requestData]
               };
         })
       };
-      const numberKrDone = newObjective.keyResults.reduce(
-        (currentCount, currentEle) => (currentCount += currentEle.progress === 100 ? 1 : 0),
-        0
-      );
-      const newObjProgress = (numberKrDone * 100) / newObjective.keyResults.length;
+      // const numberKrDone = newObjective.keyResults.reduce(
+      //   (currentCount, currentEle) => (currentCount += currentEle.progress === 100 ? 1 : 0),
+      //   0
+      // );
+      // const newObjProgress = (numberKrDone * 100) / newObjective.keyResults.length;
 
       await Objective.findOneAndUpdate(
         {
           _id: objective._id
         },
         {
-          ...newObjective,
-          keyResults: newObjective.keyResults.map((kr: KeyResultDto) => {
-            if (kr._id == keyResult._id) {
-              kr.commits = [...kr.commits, requestData];
-            }
-            return kr;
-          }),
-          progress: newObjProgress
+          ...newObjective
+          // keyResults: newObjective.keyResults.map((kr: KeyResultDto) => {
+          //   if (kr._id == keyResult._id) {
+          //     kr.commits = [...kr.commits, requestData];
+          //   }
+          //   return kr;
+          // })
+          // progress: newObjProgress
         }
       );
       return res.status(StatusCodes.OK).json({

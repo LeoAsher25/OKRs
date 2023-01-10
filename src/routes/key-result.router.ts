@@ -8,7 +8,7 @@ const keyResultRouter = Router({
 });
 
 keyResultRouter.post('/', keyResultMiddleware.checkRequestData, keyResultController.createKeyResult);
-keyResultRouter.get('/', keyResultController.getAllKeyResults);
+keyResultRouter.get('/', keyResultController.getManyKeyResults);
 keyResultRouter.get('/:krId', keyResultMiddleware.checkGetOneKeyResult, keyResultController.getOneKeyResult);
 keyResultRouter.put('/:krId', keyResultMiddleware.checkGetOneKeyResult, keyResultController.updateKeyResult);
 // keyResultRouter.put(
